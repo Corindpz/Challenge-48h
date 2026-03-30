@@ -82,6 +82,23 @@ function appendTestBubble(role, text) {
   testMessagesEl.scrollTop = testMessagesEl.scrollHeight;
 }
 
+function showThinking(container, label = "Thinking...") {
+  const wrapper = document.createElement("div");
+  wrapper.className = "bubble ai thinking-bubble";
+  wrapper.innerHTML = `<span class="thinking-spinner" aria-hidden="true"></span><span class="thinking-label">${escapeHtml(
+    label
+  )}</span>`;
+  container.appendChild(wrapper);
+  container.scrollTop = container.scrollHeight;
+  return wrapper;
+}
+
+function hideThinking(thinkingEl) {
+  if (thinkingEl && thinkingEl.parentNode) {
+    thinkingEl.parentNode.removeChild(thinkingEl);
+  }
+}
+
 function escapeHtml(value) {
   return (value || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
@@ -295,6 +312,7 @@ async function generateTest() {
   appendTestBubble("user", topic);
   testTopicInputEl.value = "";
   setBusy(true);
+  const thinkingEl = showThinking(testMessagesEl, "Thinking...");
   try {
     const res = await fetch(`${API_BASE}/test/generate`, {
       method: "POST",
@@ -322,6 +340,7 @@ async function generateTest() {
   } catch (error) {
     appendTestBubble("ai", "Impossible de generer le test pour le moment.");
   } finally {
+    hideThinking(thinkingEl);
     setBusy(false);
   }
 }
@@ -336,6 +355,7 @@ async function sendChat(message, requestSuperHint = false) {
   chatInputEl.value = "";
   setBusy(true);
   understandingPanelEl.classList.add("hidden");
+  const thinkingEl = showThinking(chatMessagesEl, "Thinking...");
 
   try {
     const res = await fetch(`${API_BASE}/chat`, {
@@ -360,6 +380,7 @@ async function sendChat(message, requestSuperHint = false) {
   } catch (error) {
     appendBubble("ai", "Erreur de connexion au serveur. Verifie localhost:8000.");
   } finally {
+    hideThinking(thinkingEl);
     setBusy(false);
     updateHud();
   }
@@ -372,6 +393,7 @@ async function generateQuizFromLesson() {
   }
 
   setBusy(true);
+  const thinkingEl = showThinking(chatMessagesEl, "Thinking...");
   try {
     const res = await fetch(`${API_BASE}/quiz/generate`, {
       method: "POST",
@@ -389,6 +411,7 @@ async function generateQuizFromLesson() {
   } catch (error) {
     appendBubble("ai", "Impossible de generer le QCM pour le moment.");
   } finally {
+    hideThinking(thinkingEl);
     setBusy(false);
   }
 }

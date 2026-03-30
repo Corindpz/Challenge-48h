@@ -3,60 +3,117 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>EduGuardIA Lang</title>
-    <!-- Commentaire: style unique de l'application chat-first -->
+    <title>Linguini AI</title>
     <link rel="stylesheet" href="/style.css" />
   </head>
   <body>
-    <div class="app">
+    <div class="bg-orb orb-a"></div>
+    <div class="bg-orb orb-b"></div>
+    <div class="bg-grid"></div>
+
+    <div class="app-shell">
       <header class="topbar">
-        <h1>EduGuardIA Lang</h1>
+        <div class="brand-block">
+          <p class="eyebrow">English Learning Hub</p>
+          <h1>Linguini AI</h1>
+          <p class="brand-subtitle">Ton coach d'anglais, pas à pas, sans pression</p>
+        </div>
+
         <div class="top-actions">
-          <div class="tabs">
-            <button id="tabCoachBtn" class="tab-btn tab-btn-active">Coach</button>
-            <button id="tabTestBtn" class="tab-btn">Se tester</button>
+          <div class="objective-pill">
+            <span class="chip">Niveau B1</span>
+            <span class="objective-text">Objectif actuel : Practice past tense</span>
           </div>
-          <label class="field-inline">
-            <span>Langue</span>
-            <select id="languageSelect"></select>
-          </label>
-          <div class="badge">Points: <span id="points">0</span></div>
-          <button id="superHintBtn" class="btn btn-secondary">Super indice</button>
-          <button id="resetBtn" class="btn btn-ghost">Reset conversation</button>
+          <div class="controls-row">
+            <label class="field-inline">
+              <span>Langue</span>
+              <select id="languageSelect"></select>
+            </label>
+            <div class="badge">XP: <span id="points">0</span></div>
+            <button id="superHintBtn" class="btn btn-secondary">Super indice</button>
+            <button id="resetBtn" class="btn btn-ghost">Reset conversation</button>
+          </div>
         </div>
       </header>
 
-      <main id="coachView" class="chat-layout">
-        <section id="chatMessages" class="chat-messages"></section>
-        <div id="understandingPanel" class="understanding-panel hidden">
-          <span>As-tu compris ?</span>
-          <button id="understoodYesBtn" class="btn btn-secondary">Oui, générer un QCM</button>
-          <button id="understoodNoBtn" class="btn btn-ghost">Non, explique autrement</button>
-        </div>
-        <div class="chat-input-wrap">
-          <textarea
-            id="chatInput"
-            rows="3"
-            placeholder="Pose ta question (grammaire, conjugaison, vocabulaire...)"
-          ></textarea>
-          <button id="sendBtn" class="btn btn-primary">Envoyer</button>
-        </div>
-      </main>
+      <main class="dashboard-layout">
+        <aside class="side-panel left-panel">
+          <section class="panel-card">
+            <h3>Progression</h3>
+            <p class="panel-muted">Niveau actuel</p>
+            <div class="meter">
+              <span style="width: 42%"></span>
+            </div>
+            <p class="panel-muted">42% vers le niveau suivant</p>
+          </section>
 
-      <main id="testView" class="chat-layout hidden">
-        <section id="testMessages" class="chat-messages"></section>
-        <div class="chat-input-wrap">
-          <textarea
-            id="testTopicInput"
-            rows="2"
-            placeholder="Entre un sujet (ex: vocabulaire médiéval, present perfect, faux amis...)"
-          ></textarea>
-          <button id="generateTestBtn" class="btn btn-primary">Générer un test de 20 QCM</button>
-        </div>
+          <section class="panel-card">
+            <h3>Streak</h3>
+            <p class="metric-line"><strong>7 jours</strong> de suite</p>
+            <p class="panel-muted">Continue pour débloquer un badge</p>
+          </section>
+
+          <section class="panel-card reward-card">
+            <h3>Rewards</h3>
+            <p class="metric-line"><strong>+15 XP</strong> next challenge</p>
+            <p class="panel-muted">Badge animation unlock à 500 XP</p>
+          </section>
+        </aside>
+
+        <section class="center-column">
+          <div class="tabs" role="tablist" aria-label="Modes d'apprentissage">
+            <button id="tabCoachBtn" class="tab-btn tab-btn-active" role="tab" aria-selected="true">Coach</button>
+            <button id="tabTestBtn" class="tab-btn" role="tab" aria-selected="false">Se tester</button>
+          </div>
+
+          <section id="coachView" class="view-card">
+            <div class="view-header">
+              <h2>Coach Chat</h2>
+              <p>L'IA te guide avec indices et questions, pas juste des réponses toutes faites.</p>
+            </div>
+
+            <section id="chatMessages" class="chat-messages"></section>
+
+            <div id="understandingPanel" class="understanding-panel hidden">
+              <span>As-tu compris ?</span>
+              <button id="understoodYesBtn" class="btn btn-secondary">Oui, générer un QCM</button>
+              <button id="understoodNoBtn" class="btn btn-ghost">Try again</button>
+            </div>
+
+            <div class="chat-input-wrap">
+              <textarea
+                id="chatInput"
+                rows="3"
+                placeholder="Ask your question (grammar, vocabulary, tense, pronunciation...)"
+              ></textarea>
+              <div class="chat-actions">
+                <button class="btn btn-ghost voice-btn" type="button" aria-label="Voice input">🎙 Voice input</button>
+                <button id="sendBtn" class="btn btn-primary">Envoyer</button>
+              </div>
+            </div>
+          </section>
+
+          <section id="testView" class="view-card hidden">
+            <div class="view-header">
+              <h2>Practice Arena</h2>
+              <p>Mini exercices et QCM pour t'entraîner en autonomie.</p>
+            </div>
+
+            <section id="testMessages" class="chat-messages"></section>
+
+            <div class="chat-input-wrap">
+              <textarea
+                id="testTopicInput"
+                rows="2"
+                placeholder="Choose a topic (past tense, travel vocab, grammar traps...)"
+              ></textarea>
+              <button id="generateTestBtn" class="btn btn-primary">Générer un test de 20 QCM</button>
+            </div>
+          </section>
+        </section>
       </main>
     </div>
 
-    <!-- Commentaire: logique JS du chat, quiz et système de points -->
     <script src="/main.js"></script>
   </body>
 </html>
