@@ -109,7 +109,6 @@ app = FastAPI(title="EduGuardIA Lang API", version="4.0.0")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "null",
         "http://localhost",
         "http://localhost:8000",
         "http://localhost:3000",
